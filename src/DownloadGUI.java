@@ -6,9 +6,8 @@
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -148,13 +147,19 @@ public class DownloadGUI extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        File ytdfile = new File(System.getenv("TEMP")+"ytd-dl");
+        File ytdfile = new File(System.getenv("APPDATA")+"\\.ytd\\ytd-dl");
         if (ytdfile.canWrite() == true) {
             try {
                 FileWriter ytdWrite = new FileWriter(ytdfile.getAbsoluteFile());
+                FileReader ytdRead = new FileReader(getClass().getClassLoader().getResource("resources/youtubedl").toString());
+                int data = ytdRead.read();
                 
+                while (data != -1) {
+                    ytdWrite.write(data);
+                    data = ytdRead.read();
+                }
                 
-                ytdWrite.write(getClass().getClassLoader().getResource("youtubedl"));
+                //ytdWrite.write();
             } catch (IOException ex) {
                 Logger.getLogger(DownloadGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -164,7 +169,7 @@ public class DownloadGUI extends javax.swing.JFrame {
     private void jTextField1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseEntered
         try {
             Process proc = Runtime.getRuntime().exec(System.getenv("TEMP")+"ytd-dl ");
-            proc
+            //proc
         } catch (IOException ex) {
             Logger.getLogger(DownloadGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
